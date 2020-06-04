@@ -7,9 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: 'macOS-10.13'
+  vmImage: 'ubuntu-latest'  
 
 steps:
+- script: echo hello from Linux
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
