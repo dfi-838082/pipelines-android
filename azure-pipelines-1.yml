@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'macOS-10.13'
 
 steps:
 - task: Gradle@2
@@ -22,3 +22,17 @@ steps:
     jdkVersionOption: '1.8'
     jdkArchitectureOption: 'x64'
     sonarQubeRunAnalysis: false
+  displayName: gradlew assembleDebug test
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+  displayName: Copy .apk files to artifact staging directory
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(build.artifactStagingDirectory)'
+    artifactName: 'drop'
+    artifactType: 'container'
+  displayName: Publish artifacts
